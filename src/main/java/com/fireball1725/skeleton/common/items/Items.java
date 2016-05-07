@@ -1,11 +1,12 @@
 package com.fireball1725.skeleton.common.items;
 
+import com.fireball1725.skeleton.common.items.sample.ItemSample;
 import com.fireball1725.skeleton.common.util.RegistrationHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public enum Items {
-    // Register Items Here
+    SAMPLE_ITEM(ItemSample.class),
     ;
 
     private final Class<? extends Item> itemClass;

@@ -1,12 +1,13 @@
 package com.fireball1725.skeleton.common.blocks;
 
+import com.fireball1725.skeleton.common.blocks.sample.BlockSample;
 import com.fireball1725.skeleton.common.util.RegistrationHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 
 public enum Blocks {
-    //Register Blocks Here...
+    SAMPLE_BLOCK(BlockSample.class),
     ;
 
     private final Class<? extends BlockBase> blockClass;

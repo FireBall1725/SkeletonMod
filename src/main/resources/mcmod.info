@@ -1,0 +1,16 @@
+[
+{
+  "modid": "skeleton",
+  "name": "Skeleton Mod",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["FireBall"],
+  "credits": "Special thanks to everyone that has contributed on Github",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
