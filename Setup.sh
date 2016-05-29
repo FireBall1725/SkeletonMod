@@ -6,6 +6,7 @@ cr=${cr%.}
 
 modname=""
 modnamelower=""
+modnamenospace=""
 modid=""
 basepackagename=""
 
@@ -19,7 +20,8 @@ getInputs() {
 		read -r -p "Mod Name cannot be empty:$cr" modname
 	done
 
-	modnamelower=$(echo $modname | tr -d ' ' | tr '[:upper:]' '[:lower:]')
+	modnamenospace=$(echo $modname | tr -d ' ')
+	modnamelower=$(echo $modnamenospace | tr '[:upper:]' '[:lower:]')
 
 	read -r -p "Enter your mod id [$modnamelower]:$cr" modid
 
@@ -55,17 +57,25 @@ setupMod()
 	mkdir -p $DIR/src/main/resources/assets/$modid
 	mv $DIR/src/main/resources/assets/skeleton/* $DIR/src/main/resources/assets/$modid
 
+	mv $DIR/src/main/java$newDir/Skeleton.java $DIR/src/main/java$newDir/$modnamenospace.java
+	mv $DIR/src/main/java$newDir/SkeletonCreativeTabs.java $DIR/src/main/java$newDir/${modnamenospace}CreativeTabs.java
+
 	# Remove old dirs
 	if [ "${basepackagedirs[0]}" != "com" ]; then
 		rm -rf $DIR/src/main/java/com
 	else
-		rm -rf $DIR/src/main/java/com/fireball1725
+		if [ "${basepackagedirs[1]}" == "fireball1725" ]; then
+			rm -rf $DIR/src/main/java/com/fireball1725/skeleton
+		else
+			rm -rf $DIR/src/main/java/com/fireball1725
+		fi
 	fi
 	rm -rf $DIR/src/main/resources/assets/skeleton/
 
 	find $DIR/src/main -type f -exec sed -i -e "s/com.fireball1725./$basepackagename./g" {} \;
 	find $DIR/src/main -type f -exec sed -i -e "s/skeleton/$modid/g" {} \;
 	find $DIR/src/main -type f -exec sed -i -e "s/Skeleton Mod/$modname/g" {} \;
+	find $DIR/src/main -type f -exec sed -i -e "s/SkeletonCreativeTabs/${modnamenospace}CreativeTabs/g" {} \;
 	find $DIR/src/main -type f -exec sed -i -e "s/Skeleton/$modname/g" {} \;
 	find $DIR/gradle.properties -type f -exec sed -i -e "s/skeleton/$modnamelower/g" {} \;
 
