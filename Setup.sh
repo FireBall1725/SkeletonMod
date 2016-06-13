@@ -72,15 +72,17 @@ setupMod()
 	fi
 	rm -rf $DIR/src/main/resources/assets/skeleton/
 
-	find $DIR/src/main -type f -exec sed -i -e "s/com.fireball1725./$basepackagename./g" {} \;
-	find $DIR/src/main -type f -exec sed -i -e "s/skeleton/$modid/g" {} \;
-	find $DIR/src/main -type f -exec sed -i -e "s/Skeleton Mod/$modname/g" {} \;
-	find $DIR/src/main -type f -exec sed -i -e "s/SkeletonCreativeTabs/${modnamenospace}CreativeTabs/g" {} \;
-	find $DIR/src/main -type f -exec sed -i -e "s/Skeleton/$modname/g" {} \;
-	find $DIR/gradle.properties -type f -exec sed -i -e "s/skeleton/$modnamelower/g" {} \;
+	find $DIR/src/main -type f -exec sed -i.bak "s/com.fireball1725./$basepackagename./g" {} \;
+	find $DIR/src/main -type f -exec sed -i.bak "s/skeleton/$modid/g" {} \;
+	find $DIR/src/main -type f -exec sed -i.bak "s/Skeleton Mod/$modname/g" {} \;
+	find $DIR/src/main -type f -exec sed -i.bak "s/SkeletonCreativeTabs/${modnamenospace}CreativeTabs/g" {} \;
+	find $DIR/src/main -type f -exec sed -i.bak "s/Skeleton/$modname/g" {} \;
+	find $DIR/gradle.properties -type f -exec sed -i.bak "s/skeleton/$modnamelower/g" {} \;
+
+	find $DIR -type f -name '*.bak' -delete
 
 	printf "\n\n"
-	printf "Finished!"
+	printf "Finished!\n\n"
 }
 
 printf "\n\n"
