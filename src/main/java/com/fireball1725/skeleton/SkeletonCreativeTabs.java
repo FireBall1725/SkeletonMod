@@ -8,7 +8,7 @@ public class SkeletonCreativeTabs {
     public static final CreativeTabs tabGeneral = new CreativeTabs(ModInfo.MOD_ID) {
         @Override
         public Item getTabIconItem() {
-            return Items.apple;
+            return Items.APPLE;
         }
 
         @Override

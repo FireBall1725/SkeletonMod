@@ -18,7 +18,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 public class BlockSample extends BlockTileBase implements IProvideRecipe {
 
     public BlockSample() {
-        super(Material.rock, "sample/sampleblock");
+        super(Material.ROCK, "sample/sampleblock");
         this.setDefaultState(blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
         this.setTileEntity(TileEntitySample.class);
         this.setCreativeTab(SkeletonCreativeTabs.tabGeneral);

@@ -20,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.EnumSkyBlock;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileEntityBase extends TileEntity implements IWailaHeadMessage, IOrientable, IRotatable {
@@ -29,15 +30,20 @@ public class TileEntityBase extends TileEntity implements IWailaHeadMessage, IOr
     private EnumFacing forward = EnumFacing.NORTH;
 
     @Override
-    public Packet getDescriptionPacket() {
-        NBTTagCompound data = new NBTTagCompound();
-        writeToNBT(data);
-        initMachineData();
-        return new SPacketUpdateTileEntity(this.pos, 1, data);
+    public NBTTagCompound getUpdateTag() {
+        return writeToNBT(new NBTTagCompound());
+    }
+
+    @Nullable
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        initMachineData(); //todo: look for somewhere else for this...
+        return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
     }
 
     @Override
     public void onDataPacket(NetworkManager networkManager, SPacketUpdateTileEntity s35PacketUpdateTileEntity) {
+        super.onDataPacket(networkManager, s35PacketUpdateTileEntity);
         readFromNBT(s35PacketUpdateTileEntity.getNbtCompound());
         worldObj.markBlockRangeForRenderUpdate(this.pos, this.pos);
         markForUpdate();
@@ -117,8 +123,8 @@ public class TileEntityBase extends TileEntity implements IWailaHeadMessage, IOr
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbtTagCompound) {
-        super.writeToNBT(nbtTagCompound);
+    public NBTTagCompound writeToNBT(NBTTagCompound nbtTagCompound) {
+        nbtTagCompound = super.writeToNBT(nbtTagCompound);
 
         if (this.customName != null)
             nbtTagCompound.setString("CustomName", this.customName);
@@ -129,6 +135,8 @@ public class TileEntityBase extends TileEntity implements IWailaHeadMessage, IOr
         if (canBeRotated()) {
             nbtTagCompound.setInteger("forward", this.forward.ordinal());
         }
+
+        return nbtTagCompound;
     }
 
     @Override
