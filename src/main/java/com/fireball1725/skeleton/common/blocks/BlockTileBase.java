@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class BlockTileBase extends BlockBase implements ITileEntityProvider, IBlockRenderer {
+public abstract class BlockTileBase extends BlockBase implements IBlockRenderer {
     protected static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     @Nonnull
@@ -55,7 +55,12 @@ public abstract class BlockTileBase extends BlockBase implements ITileEntityProv
     }
 
     @Override
-    public final TileEntity createNewTileEntity(World worldIn, int meta) {
+    public boolean hasTileEntity(IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
         try {
             return this.tileEntityClass.newInstance();
         } catch (final InstantiationException ex) {
