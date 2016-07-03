@@ -145,11 +145,7 @@ class SetupSkeletonTask extends DefaultTask {
         	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
         }
 
-        ant.replaceregexp(match:"Skeleton Mod", replace:"${modName}", flags:"g", byline:true) {
-        	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
-        }
-
-        ant.replaceregexp(match:"SkeletonCreativeTabs", replace:"${modNameNoSpace.toLowerCase()}CreativeTabs", flags:"g", byline:true) {
+        ant.replaceregexp(match:"SkeletonCreativeTabs", replace:"${modNameNoSpace}CreativeTabs", flags:"g", byline:true) {
         	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
         }
 
