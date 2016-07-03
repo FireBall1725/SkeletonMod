@@ -38,7 +38,11 @@ class SetupSkeletonTask extends DefaultTask {
 
 	    getUserConfirmation();
 
-	    doSetup();
+	    copySources();
+
+	    deleteDirectories();
+
+	    replaceInFiles();
     }
 
     def getUserInputs() {
@@ -94,33 +98,68 @@ class SetupSkeletonTask extends DefaultTask {
 	    }
     }
 
-    def doSetup() {
+    def copySources() {
     	// Copy Main Sources
     	ant.copy( todir: "${project.projectDir}/src/main/java/${basePackage.replaceAll('\\.', '/')}/${modNameNoSpace.toLowerCase()}") {
-		  fileset( dir:"${project.projectDir}/src/main/java/com/fireball1725/skeleton" )
-		}
+		  fileset( dir:"${project.projectDir}/src/main/java/com/fireball1725/skeleton" );
+		};
 
 		// Copy Resources
     	ant.copy( todir: "${project.projectDir}/src/main/resources/assets/${modNameNoSpace.toLowerCase()}") {
-		  fileset( dir:"${project.projectDir}/src/main/resources/assets/skeleton")
-		}
+		  fileset( dir:"${project.projectDir}/src/main/resources/assets/skeleton");
+		};
+    }
 
+    def deleteDirectories() {
+    	// Delete unneeded sources directories
 		if(basePackage.startsWith("com")) {
 			if(basePackage.startsWith("com.fireball1725")) {
-				ant.delete(dir:'${project.projectDir}/src/main/java/com/fireball1725/skeleton/',failonerror:false)
+				ant.delete(dir:"${project.projectDir}/src/main/java/com/fireball1725/skeleton/",failonerror:false);
 			} else {
-				ant.delete(dir:'${project.projectDir}/src/main/java/com/fireball1725/',failonerror:false)
+				ant.delete(dir:"${project.projectDir}/src/main/java/com/fireball1725/",failonerror:false);
 			}
 		} else {
-			ant.delete(dir:'${project.projectDir}/src/main/java/com/',failonerror:false)
+			ant.delete(dir:"${project.projectDir}/src/main/java/com/",failonerror:false);
 		}
+
+		// Delete unneeded assets directories
+		ant.delete(dir:"${project.projectDir}/src/main/resources/skeleton/",failonerror:true);
+    }
+
+    def replaceInFiles() {
+    	ant.replaceregexp(match:"com.fireball1725", replace:"${basePackage}", flags:"g", byline:true) {
+        	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
+        }
+
+        ant.replaceregexp(match:"skeleton", replace:"${modId}", flags:"g", byline:true) {
+        	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
+        }
+
+        ant.replaceregexp(match:"Skeleton Mod", replace:"${modName}", flags:"g", byline:true) {
+        	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
+        }
+
+        ant.replaceregexp(match:"Skeleton Mod", replace:"${modName}", flags:"g", byline:true) {
+        	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
+        }
+
+        ant.replaceregexp(match:"SkeletonCreativeTabs", replace:"${modNameNoSpace.toLowerCase()}CreativeTabs", flags:"g", byline:true) {
+        	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
+        }
+
+        ant.replaceregexp(match:"Skeleton", replace:"${modNameNoSpace}", flags:"g", byline:true) {
+        	fileset(dir: "${project.projectDir}/src/main/", excludes: ".*");
+        }
+
+        ant.replaceregexp(match:"skeleton", replace:"${modNameNoSpace.toLowerCase()}", flags:"g", byline:true) {
+        	fileset(dir: "${project.projectDir}/", includes: "gradle.properties");
+        }
 
     }
 
     /* 
 
-ant.replaceregexp(match:'skeleton', replace:'testmod', flags:'g', byline:true) {
-        	fileset(dir: 'src/main/');
+
     	}
 
     */
