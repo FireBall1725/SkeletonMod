@@ -108,6 +108,12 @@ class SetupSkeletonTask extends DefaultTask {
     	ant.copy( todir: "${project.projectDir}/src/main/resources/assets/${modNameNoSpace.toLowerCase()}") {
 		  fileset( dir:"${project.projectDir}/src/main/resources/assets/skeleton");
 		};
+
+		ant.rename(src:"${project.projectDir}/src/main/java/${basePackage.replaceAll('\\.', '/')}/${modNameNoSpace.toLowerCase()}/Skeleton.java",
+					dest:"${project.projectDir}/src/main/java/${basePackage.replaceAll('\\.', '/')}/${modNameNoSpace.toLowerCase()}/${modNameNoSpace}.java");
+
+		ant.rename(src:"${project.projectDir}/src/main/java/${basePackage.replaceAll('\\.', '/')}/${modNameNoSpace.toLowerCase()}/SkeletonCreativeTabs.java",
+					dest:"${project.projectDir}/src/main/java/${basePackage.replaceAll('\\.', '/')}/${modNameNoSpace.toLowerCase()}/${modNameNoSpace}CreativeTabs.java");
     }
 
     def deleteDirectories() {
@@ -154,6 +160,9 @@ class SetupSkeletonTask extends DefaultTask {
         ant.replaceregexp(match:"skeleton", replace:"${modNameNoSpace.toLowerCase()}", flags:"g", byline:true) {
         	fileset(dir: "${project.projectDir}/", includes: "gradle.properties");
         }
+
+        mv $DIR/src/main/java$newDir/Skeleton.java $DIR/src/main/java$newDir/$modnamenospace.java
+	mv $DIR/src/main/java$newDir/SkeletonCreativeTabs.java $DIR/src/main/java$newDir/${modnamenospace}CreativeTabs.java
 
     }
 
