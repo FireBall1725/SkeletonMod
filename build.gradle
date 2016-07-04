@@ -5,6 +5,7 @@ apply from: 'gradle/scripts/dependencies.gradle'
 apply from: 'gradle/scripts/integration.gradle'
 apply from: 'gradle/scripts/artifacts.gradle'
 apply from: 'gradle/scripts/optional.gradle'
+apply from: 'gradle/scripts/setup.gradle'
 
 // For those who want the bleeding edge
 buildscript {
